@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/ProcessMonitorApi/" />
+  <Folder Name="/ProcessMonitorApi/src/" />
+  <Folder Name="/ProcessMonitorApi/src/Domain/">
+    <Project Path="Domain/ProcessMonitorApi/ProcessMonitorApi.csproj" Id="dcff502a-6fd7-472d-af88-3e6dc602c915" />
+  </Folder>
+  <Folder Name="/ProcessMonitorApi/src/Host/">
+    <Project Path="Host\ProcessMonitorAPI\Host.ProcessMonitorApi.csproj" />
+  </Folder>
+  <Folder Name="/ProcessMonitorApi/tests/">
+    <Project Path="Tests/Domain.UnitTests/Domain.UnitTests.csproj" Id="eb6a035b-65ce-4cc3-8abb-fb5df0cc1d97" />
+  </Folder>
+</Solution>
