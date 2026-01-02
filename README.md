@@ -312,13 +312,13 @@ dotnet test Tests/Domain.UnitTests/Domain.UnitTests.csproj
 
 ### Test Coverage
 
-- **AnalysisMapperTests** (15 tests)
+- **AnalysisMapperTests** (13 tests)
   - MapToAnalysis validation and error handling
   - MapToAnalysisResponse transformations
   - Confidence rounding behavior
   - DateTime UTC conversion
 
-- **AnalyzeOperationTests** (15 tests)
+- **AnalyzeOperationTests** (17 tests)
   - Input validation
   - Caching behavior
   - Classification and storage workflow
