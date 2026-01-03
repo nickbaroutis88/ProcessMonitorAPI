@@ -369,8 +369,8 @@ public class AnalyzeOperationTests
         var resultCounts = new Dictionary<string, int>
         {
             { "COMPLIES", 3 },
-            { "DEVIATES", 1 },
-            { "UNCLEAR", 1 }
+            { "UNCLEAR", 2 },
+            { "DEVIATES", 1 }
         };
 
         _mockRepository
@@ -383,12 +383,15 @@ public class AnalyzeOperationTests
 
         // Assert
         result.Should().NotBeNull();
-        result.Count.Should().Be(5);
+        result.Count.Should().Be(6);
         result.ResultsCount.Should().NotBeNull();
         result.ResultsCount.Should().HaveCount(3);
         result.ResultsCount!["COMPLIES"].Should().Be(3);
         result.ResultsCount["DEVIATES"].Should().Be(1);
-        result.ResultsCount["UNCLEAR"].Should().Be(1);
+        result.ResultsCount["UNCLEAR"].Should().Be(2);
+        result.ResultsCount.ElementAt(0).Key.Should().Be("COMPLIES");
+        result.ResultsCount.ElementAt(1).Key.Should().Be("UNCLEAR");
+        result.ResultsCount.ElementAt(2).Key.Should().Be("DEVIATES");
     }
 
     [Fact]

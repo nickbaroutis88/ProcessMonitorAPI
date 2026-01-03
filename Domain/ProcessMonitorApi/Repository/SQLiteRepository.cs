@@ -62,6 +62,7 @@ public class SQLiteRepository(AppDbContext context) : ISQLiteRepository
         return await context.Set<T>()
             .GroupBy(columnSelector)
             .Select(g => new { Key = g.Key, Count = g.Count() })
+            .OrderByDescending(x => x.Count)
             .ToDictionaryAsync(k => k.Key, v => v.Count);
     }
 }

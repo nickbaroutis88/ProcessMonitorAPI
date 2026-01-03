@@ -24,11 +24,14 @@ public class AnalysisConfiguration : IEntityTypeConfiguration<Analysis>
         builder.Property(p => p.Confidence)
             .HasColumnType("decimal(18,2)");
 
+        // Indexes for performance
+        builder.HasIndex(p => p.Result)
+            .HasDatabaseName("IX_Analysis_Result");
+
         builder.HasIndex(p => new { p.Action, p.Guideline })
             .HasDatabaseName("IX_Analysis_Action_Guideline")
             .IsUnique(); // Makes the combination of Action and Guideline unique
 
-        // Index for performance
         builder.HasIndex(p => p.Id).IsUnique();
     }
 }
