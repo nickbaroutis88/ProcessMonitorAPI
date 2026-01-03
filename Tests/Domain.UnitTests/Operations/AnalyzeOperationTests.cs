@@ -331,8 +331,9 @@ public class AnalyzeOperationTests
     {
         // Arrange
         _mockRepository
-            .Setup(x => x.GetAllAsync<Analysis>())
-            .ReturnsAsync((IEnumerable<Analysis>?)null);
+            .Setup(x => x.GetColumnValueCountsAsync<Analysis>(
+                It.IsAny<Expression<Func<Analysis, string>>>()))
+            .ReturnsAsync((Dictionary<string, int>?)null);
 
         // Act
         var result = await _operation.GetSummaryAsync();
@@ -344,12 +345,13 @@ public class AnalyzeOperationTests
     }
 
     [Fact]
-    public async Task GetSummaryAsync_WhenEmptyList_ReturnsZeroCount()
+    public async Task GetSummaryAsync_WhenEmptyDictionary_ReturnsZeroCount()
     {
         // Arrange
         _mockRepository
-            .Setup(x => x.GetAllAsync<Analysis>())
-            .ReturnsAsync([]);
+            .Setup(x => x.GetColumnValueCountsAsync<Analysis>(
+                It.IsAny<Expression<Func<Analysis, string>>>()))
+            .ReturnsAsync(new Dictionary<string, int>());
 
         // Act
         var result = await _operation.GetSummaryAsync();
@@ -364,18 +366,17 @@ public class AnalyzeOperationTests
     public async Task GetSummaryAsync_WithAnalyses_ReturnsCorrectSummary()
     {
         // Arrange
-        var analyses = new List<Analysis>
+        var resultCounts = new Dictionary<string, int>
         {
-            new Analysis("Action1", "Guideline1", "COMPLIES", 0.95m),
-            new Analysis("Action2", "Guideline2", "COMPLIES", 0.90m),
-            new Analysis("Action3", "Guideline3", "DEVIATES", 0.85m),
-            new Analysis("Action4", "Guideline4", "COMPLIES", 0.92m),
-            new Analysis("Action5", "Guideline5", "UNCLEAR", 0.60m)
+            { "COMPLIES", 3 },
+            { "DEVIATES", 1 },
+            { "UNCLEAR", 1 }
         };
 
         _mockRepository
-            .Setup(x => x.GetAllAsync<Analysis>())
-            .ReturnsAsync(analyses);
+            .Setup(x => x.GetColumnValueCountsAsync<Analysis>(
+                It.IsAny<Expression<Func<Analysis, string>>>()))
+            .ReturnsAsync(resultCounts);
 
         // Act
         var result = await _operation.GetSummaryAsync();
@@ -394,16 +395,15 @@ public class AnalyzeOperationTests
     public async Task GetSummaryAsync_WithSingleResult_ReturnsCorrectSummary()
     {
         // Arrange
-        var analyses = new List<Analysis>
+        var resultCounts = new Dictionary<string, int>
         {
-            new Analysis("Action1", "Guideline1", "COMPLIES", 0.95m),
-            new Analysis("Action2", "Guideline2", "COMPLIES", 0.90m),
-            new Analysis("Action3", "Guideline3", "COMPLIES", 0.92m)
+            { "COMPLIES", 3 }
         };
 
         _mockRepository
-            .Setup(x => x.GetAllAsync<Analysis>())
-            .ReturnsAsync(analyses);
+            .Setup(x => x.GetColumnValueCountsAsync<Analysis>(
+                It.IsAny<Expression<Func<Analysis, string>>>()))
+            .ReturnsAsync(resultCounts);
 
         // Act
         var result = await _operation.GetSummaryAsync();

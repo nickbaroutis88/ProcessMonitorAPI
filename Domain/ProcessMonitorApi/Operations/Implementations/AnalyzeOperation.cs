@@ -66,25 +66,20 @@ public class AnalyzeOperation(
 
     public async Task<AnalysesSummaryResponse> GetSummaryAsync()
     {
-        var analyses = await sQLiteRepository.GetAllAsync<Analysis>();
+        var labelValueCounts = await sQLiteRepository.GetColumnValueCountsAsync<Analysis>(a => a.Result);
 
-        if (analyses == null || !analyses.Any())
+        if (labelValueCounts == null || labelValueCounts.Count == 0)
         {
             return new AnalysesSummaryResponse
             {
                 Count = 0
             };
         }
-
-        var resultsCount = analyses
-            .GroupBy(a => a.Result)
-            .ToDictionary(g => g.Key, g => g.Count());
-
         
         return new AnalysesSummaryResponse
         {
-            Count = analyses.Count(),
-            ResultsCount = resultsCount
+            Count = labelValueCounts.Values.Sum(),
+            ResultsCount = labelValueCounts
         };
     }
 }

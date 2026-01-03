@@ -56,4 +56,12 @@ public class SQLiteRepository(AppDbContext context) : ISQLiteRepository
     {
         return await context.Set<T>().ToListAsync();
     }
+
+    public async Task<Dictionary<string,int>?> GetColumnValueCountsAsync<T>(Expression<Func<T, string>> columnSelector) where T : class
+    {
+        return await context.Set<T>()
+            .GroupBy(columnSelector)
+            .Select(g => new { Key = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(k => k.Key, v => v.Count);
+    }
 }

@@ -9,4 +9,5 @@ public interface ISQLiteRepository
     Task<bool> DeleteAsync<T>(T entity) where T : class;
     Task<T?> GetEntityAsync<T>(Expression<Func<T, bool>> predicate) where T : class;
     Task<IEnumerable<T>?> GetAllAsync<T>() where T : class;
+    Task<Dictionary<string, int>?> GetColumnValueCountsAsync<T>(Expression<Func<T, string>> columnSelector) where T : class;
 }
