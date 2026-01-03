@@ -29,19 +29,13 @@ public class HuggingFaceClassificationService : IHuggingFaceClassificationServic
         var payload = new
         {
             inputs = string.Join(Environment.NewLine,
-                "Classify the action below based on the following guideline.", 
-                "If the action contradicts the guideline, classify it as DEVIATES.",
-                "If the relationship between the two is unclear or ambiguous, classify it as UNCLEAR.",
-                "Otherwise, classify it as COMPLIES.",
-                "", 
-                $"Guideline: {analyzeRequest.Guideline}",
-                "",
-                $"Action: {analyzeRequest.Action}"
+                 $"Guideline: {analyzeRequest.Guideline}",
+                 $"Action: {analyzeRequest.Action}"
             ),
             parameters = new
             {
                 candidate_labels = labels,
-                hypothesis_template = "This action has been classified as {} with respect to the guideline.",
+                hypothesis_template = "The action {} the guideline.",
                 multi_label = false
             }
         };   
